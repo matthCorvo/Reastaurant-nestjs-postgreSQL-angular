@@ -23,7 +23,7 @@ npm run start:dev
 REST API
 
 <div id="" align="center">
- <img src="swaggerAPI.png" width="100%"/>
+ <img src="swaggerApi.png" width="100%"/>
 </div>
 
 Accédez au Swagger API  : http://localhost:3000/api
