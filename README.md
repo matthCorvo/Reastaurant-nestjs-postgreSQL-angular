@@ -1,5 +1,4 @@
 # Projet Restaurant avec Nest.js, PostgreSQL et Angular
-L'objectif de ce projet était de créer un restaurant de kebab en ligne, permettant aux utilisateurs de passer des commandes facilement.
 
 ## Installation
 
