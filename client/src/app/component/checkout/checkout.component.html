@@ -1,0 +1,58 @@
+
+
+<div class="section" *ngIf="cartItems.length  > 0">
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-7">
+      <div class="billing-details mt-5">
+        <div class="section-title">
+          <h3 class="title"> Informations</h3>
+        </div>
+        <div class="form-group mb-2">
+          <input class="input" type="text" name="prénom" placeholder="First Name">
+        </div>
+        
+        <div class="form-group  mb-2">
+          <input class="input" type="email" name="email" placeholder="Email">
+        </div>
+  
+        <div class="form-group">
+          <input class="input" type="tel" name="tel" placeholder="Telephone">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- commande -->
+    <div class="col-md-5 order-details bg-light-subtle border mt-5">
+        <div class="section-title text-center">
+            <h3 class="title">Votre commande </h3>
+        </div>
+      <div class="order-summary">
+        <div class="order-col">
+          
+        </div>
+        <div class="order-products">
+          <div class="" *ngFor="let c of cartItems;">
+            <div>{{c.numInCart}} x {{c.title}} {{(c.price)}} €</div>
+          </div>
+        </div>
+        
+        <div class="d-flex mt-3">
+          <div><strong>TOTAL</strong></div>
+          <div><strong class="order-total ms-3">{{cartTotal }} €</strong></div>
+          <div> </div>
+        </div>
+      </div>
+     
+      <button type="submit" class=" text-uppercase btn btn-outline-success btn-sm my-2 btn-block" [disabled]="cartItems.length == 0" (click)="onCheckout(1)"> commander</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="text-center my-5" *ngIf="cartItems.length === 0">
+    <h4>Your Cart Is Empty</h4>
+  <button class="btn btn-primary btn-lg mt-3" routerLink="/">RETOUR</button>
+</div>

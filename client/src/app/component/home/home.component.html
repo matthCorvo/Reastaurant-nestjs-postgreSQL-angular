@@ -1,0 +1,25 @@
+<!-- <app-navbar></app-navbar> -->
+
+<div class="container">
+    <h2 class="mt-5 mb-4 text-center">RETROUVEZ LE VRAI GOÛT DU KEBAB !</h2> 
+     
+    <div class="row">
+       <div *ngFor="let product of products" class="col-md-4 col-sm-6 card-box mb-4">
+         <div class="card">
+           <img src="https://ckebab.fr/wp-content/uploads/2023/04/menu-sanwich-kebab.png" class="card-img-top img-fluid mx-auto" alt="Image du produit">
+           <div class="card-body text-center">
+             <h5 class="card-title">{{ product.title }}</h5>
+           </div>
+           <div class="card-body d-flex justify-content-center align-items-center">
+             <h3 class="card-text m-3">{{ product.price  }} €</h3>
+             <button class="btn btn-primary" (click)="addToCart(product.id)"><span class="fa fa-cart-plus"></span>{{"Add To Cart"}}</button>
+           </div>
+         </div>
+       </div>
+     </div>
+     
+ 
+
+ 
+    
+    
