@@ -93,10 +93,50 @@ section h3 {
     object-fit: cover;
 }
 
+/*CART BUTTON*/
+.fa-cart-shopping{
+    color: white;
+}
+
+button {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 28px; 
+    height: 28px; 
+    background-color: #00ccbc;
+    border-radius: 50%;
+    cursor: pointer; 
+    border:none;
+}
+.fa-cart-shopping {
+    color: white;
+    font-size: 12px;
+}
+
+.button-container:hover {
+    background-color: #009c9c; 
+}
+
+.card-block{
+    margin-top: 104px;
+    border: 1px solid rgba(229, 219, 219, 0.777);
+    border-radius: 5px;
+}
+
+
 @media only screen and (min-width: 980px){
     .card {
         flex: 0 1 44%;
     }
+    .card-block{
+        align-self: start;
+        overflow: hidden;
+        position: sticky;
+        z-index: 3;
+    }
+    
+
 }
 
 @media only screen and (min-width: 768px){

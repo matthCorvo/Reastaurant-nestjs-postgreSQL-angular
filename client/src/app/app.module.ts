@@ -9,6 +9,10 @@ import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/pages/home/home.component';
 import { SearchComponent } from './components/partials/search/search.component';
+import { BtnAddToCartComponent } from './components/partials/btn-add-to-cart/btn-add-to-cart.component';
+import { CartBlocComponent } from './components/cart-bloc/cart-bloc.component';
+import { EmptyComponent } from './components/partials/empty/empty.component';
+import { EmptySearchComponent } from './components/partials/empty-search/empty-search.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +20,10 @@ import { SearchComponent } from './components/partials/search/search.component';
     HeaderComponent,
     HomeComponent,
     SearchComponent,
+    BtnAddToCartComponent,
+    CartBlocComponent,
+    EmptyComponent,
+    EmptySearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,9 @@ export class FoodService {
     // return this.http.get<Food[]>(FOODS_BY_SEARCH_URL + searchTerm);
   }
 
-  // getFoodById(foodId:string):Observable<Food>{
-  //   // return this.http.get<Food>(FOOD_BY_ID_URL + foodId);
-  // }
+  getFoodById(foodId:string):Food{
+    // return this.http.get<Food>(FOOD_BY_ID_URL + foodId);
+    return this.getAll().find(food => food.id == foodId) ?? new Food();
+
+  }
 }

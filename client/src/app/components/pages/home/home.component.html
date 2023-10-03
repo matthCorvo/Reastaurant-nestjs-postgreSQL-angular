@@ -1,15 +1,18 @@
+<div class="p-4 mt-3 bg-white"> 
+  <app-search></app-search>
+</div>
 <main class="container ">
 
 <div class="element">
 <section>
-    
-    <div class="p-4 mt-3 bg-white"> 
-      <app-search></app-search>
-    </div>
 
     <h3>Nos Kebabs</h3>
+    <app-empty-search   
+    [visible]="!foods || !foods.length">
+    </app-empty-search>
 
     <div class="cards-container">
+
 
     <div  *ngFor="let food of foods" class="card card-inactive me-4">
         <a routerLink="/food/{{food.id}}">
@@ -20,19 +23,26 @@
             <div class="card-description">
                {{food.description}}
             </div>
-            <div>
-            <span class="card-price">
+            <div class="">
+            <span class="card-price me-3 fw-bold">
                 {{ food.price }} €
             </span>
-            </div>
+            
+            <button  (click)="addToCart(food)">
+            <i class="fa-solid fa-cart-shopping"></i></button>
+                
+        </div>
         </div>
         </a>
             <div class="card-img">
                 <img [src]="food.imageUrl" [alt]="food.name" >
             </div>
         </div>
-
     </div>
 </section>
 </div>
+
+    <div class="p-4 bg-white card-block"> 
+        <app-cart-bloc ></app-cart-bloc>
+    </div>
 </main>

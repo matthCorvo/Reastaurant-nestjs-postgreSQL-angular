@@ -1,0 +1,22 @@
+.fa-cart-shopping{
+    color: white;
+}
+
+button {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 48px; 
+    height: 48px; 
+    background-color: #00ccbc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s
+}
+
+.fa-cart-shopping {
+    color: white;
+    font-size: 24px; 
+}
+
+
