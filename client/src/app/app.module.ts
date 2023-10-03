@@ -7,11 +7,13 @@ import { HeaderComponent } from './components/partials/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './components/pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
