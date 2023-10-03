@@ -3,6 +3,10 @@
 ## Installation
 
 Pour installer les dépendances, suivez les étapes ci-dessous :
+### Frontend (Angular)
+<div id="" align="center">
+ <img src=".png" width="100%"/>
+</div>
 
 ### Backend (Nest.js)
 
