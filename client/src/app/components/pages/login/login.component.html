@@ -1,0 +1,36 @@
+<section class="container login-form">
+    <div class="d-flex justify-content-center flex-column max-w-500 mx-auto py-5">
+        <h2 class="fw-700">Connexion</h2>
+       
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+            <!-- Email input -->
+        <div class="form-outline mt-3">
+            <label class="form-label" for="form2Example1">addresse email</label>
+            <input type="email" placeholder="par ex. elonmusk@aws.com" id="form2Example1" class="form-control" formControlName="email" />
+        </div>
+
+        <!-- <div class="error-list" *ngIf="fc.email.errors && isSubmitted">
+            <div *ngIf="fc.email.errors.required">ne doit pas être vide</div>
+            <div *ngIf="fc.email.errors.email">email incorrect</div>
+        </div> -->
+
+        <!-- Password input -->
+        <div class="form-outline  mt-3">
+            <label class="form-label" for="form2Example2">Mot de passe</label>
+            <input placeholder="par ex. 123456 (ou pas)" type="password" id="form2Example2" class="form-control" formControlName="password" />
+        </div>
+
+        <!-- <div class="error-list" *ngIf="fc.password.errors && isSubmitted">
+            <div *ngIf="fc.password.errors.required">ne doit pas être vide</div>
+        </div> -->
+
+        <button type="submit" routerLink="/" class="mt-3 btn-valid text-white d-flex justify-content-center align-items-center">
+            <h4 class="m-0">Se connecter</h4>
+        </button>
+    </form>
+    <p class="mt-3">Pas de compte ? <a class="signup"> S'inscrire</a> 
+    <br>ou<br>
+    - email : <strong>demo@demo.com</strong> <br>- mot de passe : <strong>password</strong>
+    </p>
+    </div>
+</section>

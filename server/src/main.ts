@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { JwtAuthGuard } from './auth/guard/jwt.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalGuards(new JwtAuthGuard());
   app.enableCors();
 
   const options = new DocumentBuilder()
@@ -19,15 +20,15 @@ async function bootstrap() {
         bearerFormat: 'JWT',
         name: 'JWT',
         description: 'JWT Token',
-        in: 'header'
+        in: 'header',
       },
-      'JWT-auth'
+      'JWT-auth',
     )
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-  // app.setGlobalPrefix('api/v1');
+  // app.setGlobalPrefix('api');
   await app.listen(3000);
 }
 bootstrap();

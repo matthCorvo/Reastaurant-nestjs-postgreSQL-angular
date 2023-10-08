@@ -1,47 +1,26 @@
-import {Food} from './app/shared/models/Food';
+import { Options } from './app/shared/models/Options';
 
-export const sample_foods: Food[] = [
+export const sample_options: Options[] = [
   {
     id:'1',
-    name: 'Pizza Pepperoni',
+    name: 'Fritte',
     price: 10,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
   },
   {
     id:'2',
-    name: 'Meatball',
+    name: 'Bacon',
     price: 20.00,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
   },
   {
     id:'3',
-    name: 'Hamburger',
+    name: 'Boisson',
     price: 5,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
-
   },
   {
     id:'4',
-    name: 'Fried Potatoes',
+    name: 'Dessert',
     price: 2.00,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
-  },
-  {
-    id:'5',
-    name: 'Chicken Soup',
-    price: 11.00,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
-  },
-  {
-    id:'6',
-    name: 'Vegetables Pizza',
-    price: 9,
-    imageUrl: 'https://media.timeout.com/images/105702343/1920/1080/image.jpg',
-    description: 'Galette turque maison'
-  },
+  }
+ 
 ]
+

@@ -10,9 +10,9 @@
     <app-empty-search   
     [visible]="!foods || !foods.length">
     </app-empty-search>
-
+    
+    <!-- Conteneur pour les cartes des kebabs -->
     <div class="cards-container">
-
 
     <div  *ngFor="let food of foods" class="card card-inactive me-4">
         <a routerLink="/food/{{food.id}}">
@@ -30,7 +30,7 @@
             
             <button  (click)="addToCart(food)">
             <i class="fa-solid fa-cart-shopping"></i></button>
-                
+            <app-add-cart></app-add-cart>
         </div>
         </div>
         </a>
@@ -42,6 +42,7 @@
 </section>
 </div>
 
+    <!-- Conteneur pour afficher le panier -->
     <div class="p-4 bg-white card-block"> 
         <app-cart-bloc ></app-cart-bloc>
     </div>

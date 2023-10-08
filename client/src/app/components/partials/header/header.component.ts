@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/shared/models/User';
 
 @Component({
   selector: 'app-header',
@@ -7,29 +9,31 @@ import { CartService } from 'src/app/services/cart.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  cartQuantity = 0;
-  // user!:User;
-  constructor(cartService:CartService) {
+  // Quantité d'articles dans le panier
+  cartQuantity=0;
+  // Informations de l'utilisateur connecté
+  user!:User;
+  constructor(cartService:CartService,private userService:UserService) {
+    // mettre à jour la quantité du panier
     cartService.getCartObservable().subscribe((newCart) => {
       this.cartQuantity = newCart.totalCount;
     })
-
-  //   userService.userObservable.subscribe((newUser) => {
-  //     this.user = newUser;
-  //   })
+    // mettre à jour les informations de l'utilisateur
+    userService.userObservable.subscribe((newUser) => {
+      this.user = newUser;
+    })
    }
 
   ngOnInit(): void {
   }
-
-  logout(){
-    // this.userService.logout();
-  }
-
-  // get isAuth(){
-  //   // return this.user.token;
-  // }
-
   
+  // Fonction pour se déconnecter de l'application
+  logout(){
+    this.userService.logout();
+  }
+  
+  // Propriété calculée pour vérifier si l'utilisateur est authentifié
+  get isAuth(){
+    return this.user.token;
+  }
 }

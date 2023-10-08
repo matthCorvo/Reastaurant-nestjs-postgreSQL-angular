@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { FoodEntity } from './entities/food.entity';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -79,5 +79,20 @@ export class FoodService {
     const food = await this.foodRepository.findOne({ where: { id: id } });
     console.log(food);
     await this.foodRepository.remove(food);
+  }
+
+  /**
+   * Recherche des kebabs en fonction d'un terme de recherche.
+   *
+   * @param {string} searchTerm - Le terme de recherche pour trouver des kebabs.
+   * @returns {Promise<FoodEntity[]>} Un tableau de kebabs correspondant au terme de recherche.
+   */
+  async search(searchTerm: string): Promise<FoodEntity[]> {
+    const foods = await this.foodRepository.find({
+      where: {
+        name: ILike(`%${searchTerm}%`)
+      }
+    });
+    return foods;
   }
 }

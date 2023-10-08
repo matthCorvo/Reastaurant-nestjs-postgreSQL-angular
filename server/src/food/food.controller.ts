@@ -6,17 +6,16 @@ import {
   Patch,
   Param,
   Delete,
-  ValidationPipe
-  // UseGuards
+  ValidationPipe,
+  UseGuards
 } from '@nestjs/common';
 import { FoodService } from './food.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { FoodEntity } from './entities/food.entity';
 import { ApiTags, ApiSecurity } from '@nestjs/swagger';
-// import { AuthenticationGuard } from '../utils/guards/authentification.guard';
-// import { AuthorizeGuard } from '../utils/guards/authorization.guard';
-// import { Roles } from '../utils/user-roles.enum';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/users/entities/user-roles.enum';
 
 @Controller('food')
 @ApiTags('food')
@@ -30,7 +29,7 @@ export class FoodController {
    * @returns {Promise<FoodEntity>} Le kebab créé.
    */
   // @ApiSecurity('JWT-auth') // Swagger api
-  // @UseGuards(AuthenticationGuard, AuthorizeGuard([Roles.ADMIN]))
+  // @UseGuards(new RoleGuard(Roles.ADMIN))
   @Post()
   async create(
     @Body(ValidationPipe) createFoodDto: CreateFoodDto
@@ -59,6 +58,17 @@ export class FoodController {
     return await this.foodService.findById(+id);
   }
 
+   /**
+   * Recherche des kebabs en fonction d'un terme de recherche.
+   *
+   * @param {string} searchTerm - Le terme de recherche pour trouver des kebabs.
+   * @returns {Promise<FoodEntity[]>} Un tableau de kebabs correspondant au terme de recherche.
+   */
+   @Get('search/:searchTerm')
+   async search(@Param('searchTerm') searchTerm: string): Promise<FoodEntity[]> {
+     return this.foodService.search(searchTerm);
+   }
+
   /**
    * Met à jour les informations d'un kebab en fonction de son ID.
    *
@@ -81,10 +91,12 @@ export class FoodController {
    *
    * @param {number} id - L'ID du kebab à supprimer.
    */
-  // @ApiSecurity('JWT-auth') // Swagger api
-  // @UseGuards(AuthenticationGuard, AuthorizeGuard([Roles.ADMIN]))
+  @ApiSecurity('JWT-auth') // Swagger api
+  @UseGuards(new RoleGuard(Roles.ADMIN))
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<void> {
     await this.foodService.remove(+id);
   }
+
+ 
 }

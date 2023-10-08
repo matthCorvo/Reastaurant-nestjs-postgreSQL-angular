@@ -20,7 +20,7 @@
 
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 
-              <!-- <li *ngIf="!isAuth"> -->
+              <li *ngIf="!isAuth">
               <li class="nav-item border rounded me-3">
                 <a class="nav-link" routerLink="/login">
                   <i class="fa-solid fa-house me-1"></i>
@@ -28,7 +28,7 @@
                 </a>
               </li>
 
-              <!-- <li *ngIf="isAuth"> -->
+              <li *ngIf="isAuth">
               <li class="nav-item me-3 mt-2" >
                 <a routerLink="/cart-page">
                   <i class="fa-solid fa-cart-shopping"></i>
@@ -37,16 +37,15 @@
                
               </li>
 
-              <!-- <li *ngIf="isAuth"> -->
+              <li *ngIf="isAuth">
               <li ngbDropdown class="nav-item border rounded">
                 <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
                   <i class="fa-regular fa-user me-2"></i>
-                  <a routerLink="/dashboard">
-                    <!-- {{user.name}} -->kkk
+                  <a>
+                    {{user.name}} 
                   </a>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <a ngbDropdownItem routerLink="/profile">Profile</a>
                     <a ngbDropdownItem routerLink="/orders">Commandes</a>
                     <a ngbDropdownItem class="text-danger" (click)="logout()">Déconnexion</a>
 
