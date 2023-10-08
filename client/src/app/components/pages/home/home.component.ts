@@ -40,12 +40,4 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  /**
-   * Ajoute un aliment au panier et affiche le nom de l'aliment dans la console.
-   * @param food L'aliment à ajouter au panier.
-   */
-  addToCart(food: Food) {
-    this.cartService.addToCart(food);
-    console.log(food);
-  }
 }

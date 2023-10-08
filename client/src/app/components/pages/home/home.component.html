@@ -28,7 +28,7 @@
                 {{ food.price }} €
             </span>
             
-            <button  (click)="addToCart(food)">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fa-solid fa-cart-shopping"></i></button>
             <app-add-cart></app-add-cart>
         </div>

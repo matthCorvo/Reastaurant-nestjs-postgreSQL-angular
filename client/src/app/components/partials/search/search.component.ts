@@ -10,6 +10,7 @@ export class SearchComponent implements OnInit {
   searchTerm = '';
   constructor(activatedRoute:ActivatedRoute,private router:Router) {
     activatedRoute.params.subscribe((params) => {
+      console.log('SearchTerm parameter:', params.searchTerm);
       if(params.searchTerm) this.searchTerm = params.searchTerm;
     });
    }
@@ -18,9 +19,11 @@ export class SearchComponent implements OnInit {
   }
 
   search(searchTerm:string):void{
-    if(searchTerm)
-    this.router.navigateByUrl('/search/'+ searchTerm);
-    else
-    this.router.navigateByUrl('/')
+    console.log('Search function called with searchTerm:', searchTerm);
+    if (searchTerm){
+      this.router.navigateByUrl('/search/'+ searchTerm);
+    } else {
+      this.router.navigateByUrl('/')
+    }
   }
 }
