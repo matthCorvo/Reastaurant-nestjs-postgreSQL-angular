@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Options } from '../shared/models/Options';
-import { sample } from 'rxjs';
-import { sample_options } from 'src/data';
+import { sample_options } from '../../data';
 
 @Injectable({
   providedIn: 'root'

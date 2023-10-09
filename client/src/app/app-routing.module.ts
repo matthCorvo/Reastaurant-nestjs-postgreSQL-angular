@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { CheckoutComponent } from './components/pages/checkout/checkout.component';
 import { AddCartComponent } from './components/partials/add-cart/add-cart.component';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { PaymentComponent } from './components/pages/payment/payment.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path:'login', component: LoginComponent },
   { path:'food/:id', component: HomeComponent },
   { path:'register', component: RegisterComponent },
-  {path:'checkout', component: CheckoutComponent, canActivate:[AuthGuard]},
+  { path:'checkout', component: CheckoutComponent, canActivate:[AuthGuard]},
+  { path:'payment', component: PaymentComponent, canActivate:[AuthGuard]},
+  // {path:'track/:orderId', component: OrderTrackPageComponent, canActivate:[AuthGuard]},
 
 
 ];

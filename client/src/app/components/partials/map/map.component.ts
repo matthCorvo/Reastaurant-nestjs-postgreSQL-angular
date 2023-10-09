@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { icon, LatLng, LatLngExpression, LatLngTuple, LeafletMouseEvent, map, Map, marker, Marker, tileLayer } from 'leaflet';
-import { LocationService } from 'src/app/services/location.service';
-import { Order } from 'src/app/shared/models/Order';
+import { LocationService } from '../../../services/location.service';
+import { Order } from '../../../shared/models/Order';
 
 @Component({
   selector: 'app-map',

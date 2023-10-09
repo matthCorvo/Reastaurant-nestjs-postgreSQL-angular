@@ -13,7 +13,7 @@ import {
 import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { RoleGuard } from 'src/auth/guard/role.guard';
+import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from './entities/user-roles.enum';
 
 @Controller('user')

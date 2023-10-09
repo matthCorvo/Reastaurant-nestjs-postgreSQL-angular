@@ -14,8 +14,8 @@ import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { FoodEntity } from './entities/food.entity';
 import { ApiTags, ApiSecurity } from '@nestjs/swagger';
-import { RoleGuard } from 'src/auth/guard/role.guard';
-import { Roles } from 'src/users/entities/user-roles.enum';
+import { RoleGuard } from '../auth/guard/role.guard';
+import { Roles } from '../users/entities/user-roles.enum';
 
 @Controller('food')
 @ApiTags('food')

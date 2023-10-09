@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import { IUserRegister } from 'src/app/shared/interfaces/IUserRegister';
+import { UserService } from '../../../services/user.service';
+import { IUserRegister } from '../../../shared/interfaces/IUserRegister';
 import { PasswordsMatchValidator } from './password_match_validator';
 
 @Component({
