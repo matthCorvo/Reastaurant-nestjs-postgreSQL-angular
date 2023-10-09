@@ -11,6 +11,7 @@ import { Food } from 'src/app/shared/models/Food';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  food!: Food;
   foods: Food[] = [];
 
   constructor(
@@ -18,8 +19,13 @@ export class HomeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cartService:CartService
     ) {
+
     let foodsObservable: Observable<Food[]>;
     this.activatedRoute.params.subscribe((params) => {
+      if(params.id) 
+      foodService.getFoodById(params.id).subscribe(serverFood => {
+        this.food = serverFood;
+      });
       if (params.searchTerm) {
         // Si un terme de recherche est spécifié dans les paramètres d'URL,
         // récupère les aliments correspondants depuis le service.
@@ -40,4 +46,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addToCart(food: Food) {
+    console.log('Add to Cart clicked for food:', food);
+    this.cartService.addToCart(food);
+    // this.router.navigate(['/']);
+  }
 }

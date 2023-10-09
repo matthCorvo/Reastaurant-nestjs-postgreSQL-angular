@@ -2,7 +2,7 @@ export class User{
     id!:string;
     email!:string;
     name!:string;
-    address!:string;
+    adresse!:string;
     token!:string;
     role!:string;
   }

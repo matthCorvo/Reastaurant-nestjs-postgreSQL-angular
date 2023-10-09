@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from '../../order/entities/order.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Roles } from './user-roles.enum';
 
 @Entity({ name: 'user' })
@@ -22,9 +23,12 @@ export class UserEntity {
   @Column()
   password: string;
 
-    // Rôle de l'utilisateur (par défaut: USER)
-    @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.USER] })
-      role: Roles[];  
+  // Rôle de l'utilisateur (par défaut: USER)
+  @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.USER] })
+  role: Roles[];
 
+  // un utilisateur peur avoir plusieur commande
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
 }

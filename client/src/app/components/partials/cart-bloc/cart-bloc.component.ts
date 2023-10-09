@@ -17,6 +17,7 @@ export class CartBlocComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
   }
 
   // Fonction pour supprimer un élément du panier
@@ -25,9 +26,23 @@ export class CartBlocComponent implements OnInit {
   }
 
   // Fonction pour changer la quantité d'un élément du panier
-  changeQuantity(cartItem:CartItem,quantityInString:string){
-    const quantity = parseInt(quantityInString);
+  changeQuantity(cartItem:CartItem,quantityIn:number){
+    const quantity = quantityIn;
     this.cartService.changeQuantity(cartItem.food.id, quantity);
   }
 
+  decrementQuantity(cartItem: CartItem) {
+    if (cartItem.quantity > 1) {
+      cartItem.quantity--;
+      cartItem.price = cartItem.quantity * cartItem.food.price;
+      this.cartService.changeQuantity(cartItem.food.id, cartItem.quantity);
+    }
+  }
+  
+  incrementQuantity(cartItem: CartItem) {
+    cartItem.quantity++;
+    cartItem.price = cartItem.quantity * cartItem.food.price;
+    this.cartService.changeQuantity(cartItem.food.id, cartItem.quantity);
+  }
+  
 }

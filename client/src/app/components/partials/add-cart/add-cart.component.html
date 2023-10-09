@@ -3,9 +3,9 @@
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content" *ngIf="food" >
-       <div class="card-img-top">
+       <div class="card-img-top text-center">
          <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
-           <img [src]="food.imageUrl" [alt]="food.name"/>
+           <img [src]="food.imageUrl" [alt]="food.name" class="img-fluid center-image"/>
        </div>
 
        <div class="modal-body">
@@ -32,8 +32,8 @@
        
         </div>
         </div>
-        <p class="info">*Ajout options en cours de préparation ...</p>
-        <button type="button" class="btn-valid text-white d-flex justify-content-center align-items-center"  (click)="addToCart(food)"> <h5>Ajouter pour {{food.price}} €</h5></button>
+        <p class="info">*Ajout d'options en cours de préparation ...</p>
+        <button type="button" class="btn-valid text-white d-flex justify-content-center align-items-center pt-2 "  (click)="addToCart(food)" disabled><h5>Ajouter</h5></button>
       </div>
     </div>
   </div>

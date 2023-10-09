@@ -14,6 +14,8 @@ import { Options } from '../../../shared/models/Options';
 export class AddCartComponent implements OnInit {
   food!: Food;
   options: Options[] = [];
+  returnUrl = '';
+
   constructor(
     private optionService: OptionService,
     private cartService:CartService,
@@ -34,7 +36,8 @@ export class AddCartComponent implements OnInit {
   }
 
   addToCart(food: Food) {
+    console.log('Add to Cart clicked for food:', food);
     this.cartService.addToCart(food);
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl(this.returnUrl);
   }
 }

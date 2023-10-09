@@ -20,37 +20,35 @@
 
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 
-              <li *ngIf="!isAuth">
-              <li class="nav-item border rounded me-3">
+              <li *ngIf="!isAuth" class="nav-item border rounded me-3">
                 <a class="nav-link" routerLink="/login">
                   <i class="fa-solid fa-house me-1"></i>
                   Inscription ou connexion
                 </a>
               </li>
-
-              <li *ngIf="isAuth">
-              <li class="nav-item me-3 mt-2" >
-                <a routerLink="/cart-page">
+            
+              <li *ngIf="isAuth" class="nav-item me-3 mt-2" >
+                <a routerLink="/checkout">
                   <i class="fa-solid fa-cart-shopping"></i>
                   <span *ngIf="cartQuantity" class="badge rounded-pill badge-notification bg-danger">{{cartQuantity}}</span>
                 </a>
                
               </li>
 
-              <li *ngIf="isAuth">
-              <li ngbDropdown class="nav-item border rounded">
+              <li *ngIf="isAuth" ngbDropdown class="nav-item border rounded">
                 <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
                   <i class="fa-regular fa-user me-2"></i>
                   <a>
-                    {{user.name}} 
+                    {{user.email}} 
                   </a>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <a ngbDropdownItem routerLink="/orders">Commandes</a>
-                    <a ngbDropdownItem class="text-danger" (click)="logout()">Déconnexion</a>
+                    <a ngbDropdownItem class="text-danger logout" (click)="logout()">Déconnexion</a>
 
                 </div>
               </li>
+              
             </ul>
            
           </div>

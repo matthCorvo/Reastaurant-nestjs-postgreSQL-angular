@@ -20,6 +20,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { CheckoutComponent } from './components/pages/checkout/checkout.component';
 import { AddCartComponent } from './components/partials/add-cart/add-cart.component';
+import { PaymentComponent } from './components/pages/payment/payment.component';
+import { TextInputComponent } from './components/partials/text-input/text-input.component';
+import { FoodListComponent } from './components/partials/food-list/food-list.component';
+import { MapComponent } from './components/partials/map/map.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { AddCartComponent } from './components/partials/add-cart/add-cart.compon
     RegisterComponent,
     CheckoutComponent,
     AddCartComponent,
+    PaymentComponent,
+    TextInputComponent,
+    FoodListComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,

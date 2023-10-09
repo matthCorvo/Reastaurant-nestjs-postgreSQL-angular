@@ -34,7 +34,13 @@ ul {
     list-style: none;
 }
 
-
+.btn-quantity{
+    color: #00ccbc; 
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #00ccbc; 
+    width: 24px;
+}
 .basket-items {
     display: flex;
     flex-direction: row;

@@ -13,16 +13,11 @@
                 </span>
 
                 <div>
-                <select  #quantitySelect
-                [value]="cartItem.quantity"
-                (change)="changeQuantity(cartItem, quantitySelect.value)">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-                </div>
+                    <button class="btn-quantity me-2" (click)="decrementQuantity(cartItem)">-</button>
+                    <span class="fw-bold">{{ cartItem.quantity }}</span>
+               
+                    <button class="btn-quantity ms-2" (click)="incrementQuantity(cartItem)">+</button>
+                  </div>
 
                 <span>      
                     {{cartItem.price}} €

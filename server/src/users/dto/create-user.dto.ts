@@ -1,6 +1,5 @@
-import { IsNotEmpty, IsString, IsEmail, IsArray, ArrayUnique, ArrayNotEmpty  } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsArray, ArrayUnique, ArrayNotEmpty, Matches  } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Roles } from '../entities/user-roles.enum';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -11,6 +10,7 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty({ message: 'Le nom ne peut être vide' })
   @IsString({ message: 'Le nom doit être une chaîne de caractères' })
+  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'password too weak'})
   password: string;
 
   @ApiProperty()
@@ -19,13 +19,8 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Le nom ne peut être vide' })
-  @IsString({ message: 'Le nom doit être une chaîne de caractères' })
+  @IsNotEmpty({ message: 'ne peut être vide' })
+  @IsString({ message: 'doit être une chaîne de caractères' })
   adresse: string;
 
-//   @ApiProperty()
-//   @IsArray()
-//   @ArrayUnique()
-//   @ArrayNotEmpty()
-//   role: Roles[];
 }

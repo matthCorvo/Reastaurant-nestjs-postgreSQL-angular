@@ -13,15 +13,20 @@ export class CartService {
   constructor() { }
 
   addToCart(food: Food): void {
-    let cartItem = this.cart.items
-      .find(item => item.food.id === food.id);
-    if (cartItem)
-      return;
-
-    this.cart.items.push(new CartItem(food));
+    let cartItem = this.cart.items.find(item => item.food.id === food.id);
+    if (cartItem) {
+      // Increment the quantity
+      cartItem.quantity++;
+      cartItem.price = +food.price; // Convert the price to a number
+    } else {
+      // Add a new item to the cart
+      const newCartItem = new CartItem(food);
+      newCartItem.price = +food.price; // Convert the price to a number
+      this.cart.items.push(newCartItem);
+    }
     this.setCartToLocalStorage();
   }
-
+  
   removeFromCart(foodId: string): void {
     this.cart.items = this.cart.items
       .filter(item => item.food.id != foodId);
@@ -29,8 +34,7 @@ export class CartService {
   }
 
   changeQuantity(foodId: string, quantity: number) {
-    let cartItem = this.cart.items
-      .find(item => item.food.id === foodId);
+    let cartItem = this.cart.items.find(item => item.food.id === foodId);
     if (!cartItem) return;
 
     cartItem.quantity = quantity;
@@ -52,10 +56,8 @@ export class CartService {
   }
 
   private setCartToLocalStorage(): void {
-    this.cart.totalPrice = this.cart.items
-      .reduce((prevSum, currentItem) => prevSum + currentItem.price, 0);
-    this.cart.totalCount = this.cart.items
-      .reduce((prevSum, currentItem) => prevSum + currentItem.quantity, 0);
+    this.cart.totalPrice = this.cart.items.reduce((prevSum, currentItem) => prevSum + currentItem.price, 0);
+    this.cart.totalCount = this.cart.items.reduce((prevSum, currentItem) => prevSum + currentItem.quantity, 0);
 
     const cartJson = JSON.stringify(this.cart);
     localStorage.setItem('Cart', cartJson);
