@@ -22,5 +22,10 @@ export class OrderedProductsDto {
   @IsPositive({ message: 'La quantité ne peut pas être négative.' })
   quantity: number;
 
+  @ApiProperty()
+  @IsNumber({}, { message: 'La quantité doit être un nombre' })
+  @IsPositive({ message: 'La quantité ne peut pas être négative.' })
+  food: number;
+
 
 }

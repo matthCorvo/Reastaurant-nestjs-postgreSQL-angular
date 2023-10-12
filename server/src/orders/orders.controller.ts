@@ -5,9 +5,8 @@ import {
   Body,
   Param,
   Delete,
-  ReqUser,
   HttpStatus,
-  HttpException,
+  Req,
   InternalServerErrorException
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
@@ -16,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrdersProductsEntity } from './entities/orders-products.entity';
 import { OrderedProductsDto } from './dto/ordered-products.dto';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Controller('orders')
 @ApiTags('orders')
@@ -30,11 +29,9 @@ export class OrdersController {
   }
 
   @Post('create')
-  async createOrder(
-    @ReqUser() user: UserEntity | null,
-    @Body() body: CreateOrderDto,
-  ): Promise<OrderEntity> {
-    return await this.ordersService.createOrder(user?.id ?? null, body);
+  async createOrder(@Body() createOrderDto: CreateOrderDto, @Req() req): Promise<OrderEntity> {
+    const userId = req.user.id; // Assuming you have the user ID stored in the req.user object
+    return this.ordersService.createOrder(createOrderDto, userId);
   }
 
   @Delete(':id')
@@ -43,7 +40,7 @@ export class OrdersController {
   }
 
   @Get('newOrderForCurrentUser')
-  async getNewOrderForCurrentUser(userId: string): Promise<any> {
+  async getNewOrderForCurrentUser(userId: number): Promise<any> {
     try {
       const order = await this.ordersService.getNewOrderForCurrentUser(userId);
       if (order) {

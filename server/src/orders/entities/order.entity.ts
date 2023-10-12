@@ -37,7 +37,7 @@ export class OrderEntity {
   name: string;
 
   @Column('varchar', { nullable: false })
-  userId: string;
+  userId: number;
   
   @Column('varchar', { nullable: false })
   adresse: string;
@@ -46,13 +46,8 @@ export class OrderEntity {
   @JoinColumn()
   addressLatLng: ShippingEntity;
 
-  @OneToMany(() => OrdersProductsEntity, (op) => op.order)
-  order: OrdersProductsEntity[];
+  @OneToMany(() => OrdersProductsEntity, (orderProduct) => orderProduct.order, { cascade: true })
+  orderProducts: OrdersProductsEntity[];
 
-  @ManyToOne(() => UserEntity, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  user?: UserEntity;
 
 }

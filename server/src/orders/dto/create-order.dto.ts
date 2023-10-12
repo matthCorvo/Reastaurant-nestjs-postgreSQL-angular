@@ -40,5 +40,5 @@ export class CreateOrderDto {
   @ValidateNested({ each: true })
   @IsNotEmptyObject({ nullable: false }, { each: true })
   @Type(() => OrderedProductsDto)
-  order: OrderedProductsDto[];
+  orderProducts: OrderedProductsDto[];
 }

@@ -13,10 +13,7 @@ export class OrdersProductsEntity {
   @Column('integer', { nullable: true })
   quantity: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.order, {
-    onDelete: 'CASCADE',
-    orphanedRowAction: 'delete',
-  })
+  @ManyToOne(() => OrderEntity, (order) => order.orderProducts)
   order: OrderEntity;
 
   @ManyToOne(() => FoodEntity)
