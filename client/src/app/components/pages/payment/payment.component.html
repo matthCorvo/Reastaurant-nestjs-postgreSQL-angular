@@ -3,33 +3,31 @@
   
       <div class="row g-5 mt-5 mb-5">
         <div class="col-md-5 col-lg-4 order-md-last card-checkout">
+          
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             Panier
-          </h4>
-          <ul class="list-group mb-3">
-            <li class=" d-flex justify-content-between lh-sm m-2">
-              <div>
-                <p class="my-0">1x Product name</p>
-              </div>
-              <span class="text-body-secondary ">$12</span>
-            </li>
-            <hr>
-            <li class=" d-flex justify-content-between lh-sm m-2">
-              <div>
-                <h5 class="my-0">Total</h5>
-              </div>
-              <span class="text-body-secondary fw-bold">$12</span>
-            </li>
-          </ul>
-  
+          </h4>                  
+          <app-food-list [order]="order"></app-food-list>
         </div>
         <div class="col-md-7 col-lg-8 ">
           <h4 class="mb-3">Vérifiez votre commande chez NeoKebab</h4>
           <form class="needs-validation" novalidate="">
             <div class="row g-3">
-
+                <div class="summary">
+                    <div>
+                      <h3>Nom:</h3>
+                      <span>{{order.name}}</span>
+                    </div>
+                    <div>
+                      <h3>Adresse:</h3>
+                      <span>{{order.adresse}}</span>
+                    </div>
+                    <div class="map">
+                    <app-map [order]="order" [readonly]="true"></app-map>
+                  </div>
+                  </div>
             </div>
-  
+            
             <button class="w-100 mt-4 btn btn-primary btn-lg btn-valid fw-bold" type="submit">Commander votre livraison</button>
           </form>
         </div>

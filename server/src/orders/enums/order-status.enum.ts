@@ -3,5 +3,5 @@ export enum OrderStatus {
   PAYED = 'PAYÉ',
   SHIPPED = 'EXPÉDIÉ',
   CANCELED = 'ANNULÉ',
-  REFUNDED = 'REMBOUR',
+  REFUNDED = 'REMBOURSÉ',
 }

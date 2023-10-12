@@ -1,9 +1,10 @@
 export class User{
-    id!:string;
+    id!:number;
     email!:string;
     name!:string;
     adresse!:string;
     token!:string;
     role!:string;
+    
   }
   

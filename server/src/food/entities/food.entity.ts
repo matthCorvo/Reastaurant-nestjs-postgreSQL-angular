@@ -1,5 +1,5 @@
-import { OrdersProductsEntity } from 'src/orders/entities/orders-products.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { OrdersProductsEntity } from '../../orders/entities/orders-products.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'food' })
 // Crée l'entité des kebabs.
@@ -23,7 +23,4 @@ export class FoodEntity {
   @Column()
   description: string;
 
-  // un kebab peur avoir plusieur commande
-  @OneToMany(() => OrdersProductsEntity, (op) => op.food)
-  order: OrdersProductsEntity[];
 }

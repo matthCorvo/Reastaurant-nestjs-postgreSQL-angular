@@ -4,6 +4,10 @@ export const Constants = {
     '/user/register',
     '/food',
     '/food/:id',
-    '/food/search/:searchTerm'
+    '/food/search/:searchTerm',
+    '/orders',
+    '/orders/:id',
+    '/orders/create',
+    '/orders/newOrderForCurrentUser',
   ] 
 };

@@ -6,6 +6,7 @@ import { OrderEntity } from './entities/order.entity';
 import { OrdersProductsEntity } from './entities/orders-products.entity';
 import { ShippingEntity } from './entities/shipping.entity';
 import { FoodModule } from '../food/food.module';
+import { FoodEntity } from '../food/entities/food.entity';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { FoodModule } from '../food/food.module';
       OrderEntity,
       OrdersProductsEntity,
       ShippingEntity,
+      FoodEntity,
     ]),
     forwardRef(() => FoodModule),
   ],

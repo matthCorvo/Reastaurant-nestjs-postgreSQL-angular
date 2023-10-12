@@ -23,8 +23,9 @@ export class CheckoutComponent implements OnInit {
               private router: Router
               ) {
                 const cart = cartService.getCart();
-                this.order.items = cart.items;
+                this.order.order = cart.items;
                 this.order.totalPrice = cart.totalPrice;
+                this.order.userId = this.userService.currentUser.id;
               }
 
   ngOnInit(): void {
@@ -53,6 +54,8 @@ export class CheckoutComponent implements OnInit {
 
     this.order.name = this.fc.name.value;
     this.order.adresse = this.fc.adresse.value;
+
+    
     console.log(this.order)
     this.orderService.create(this.order).subscribe({
       next:() => {

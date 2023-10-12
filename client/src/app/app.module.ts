@@ -43,6 +43,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     TextInputComponent,
     FoodListComponent,
     MapComponent,
+
   ],
   imports: [
     BrowserModule,

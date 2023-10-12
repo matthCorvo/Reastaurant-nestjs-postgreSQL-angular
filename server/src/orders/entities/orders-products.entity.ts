@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { OrderEntity } from './order.entity';
 import { FoodEntity } from '../../food/entities/food.entity';
 
@@ -7,15 +7,18 @@ export class OrdersProductsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0,  })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0  })
   price: number;
 
   @Column('integer', { nullable: true })
   quantity: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.foods)
+  @ManyToOne(() => OrderEntity, (order) => order.order, {
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
   order: OrderEntity;
 
-  @ManyToOne(() => FoodEntity, (food) => food.order, { cascade: true })
+  @ManyToOne(() => FoodEntity)
   food: FoodEntity;
 }

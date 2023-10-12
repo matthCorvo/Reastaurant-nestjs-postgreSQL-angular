@@ -7,13 +7,12 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  Timestamp,
-  UpdateDateColumn,
 } from 'typeorm';
 import { OrderStatus } from '../enums/order-status.enum';
-import { UserEntity } from 'src/users/entities/user.entity';
 import { ShippingEntity } from './shipping.entity';
 import { OrdersProductsEntity } from './orders-products.entity';
+import { FoodEntity } from 'src/food/entities/food.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Entity({ name: 'orders' })
 export class OrderEntity {
@@ -23,13 +22,6 @@ export class OrderEntity {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date;
-
   @Column({
     type: 'enum',
     enum: OrderStatus,
@@ -38,25 +30,29 @@ export class OrderEntity {
   })
   status: OrderStatus[];
 
-  @Column('integer', { nullable: true })
+  @Column('integer', { nullable: false })
   totalPrice: number;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: false })
   name: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: false })
+  userId: string;
+  
+  @Column('varchar', { nullable: false })
   adresse: string;
-
-  @Column('varchar', { nullable: true })
-  paymentId: string;
 
   @OneToOne(() => ShippingEntity, (ship) => ship.order, { cascade: true })
   @JoinColumn()
   addressLatLng: ShippingEntity;
 
-  @OneToMany(() => OrdersProductsEntity, (op) => op.order, { cascade: true })
-  foods: OrdersProductsEntity[];
+  @OneToMany(() => OrdersProductsEntity, (op) => op.order)
+  order: OrdersProductsEntity[];
 
-  @ManyToOne(() => UserEntity, (user) => user.orders)
-  user: UserEntity;
+  @ManyToOne(() => UserEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  user?: UserEntity;
+
 }

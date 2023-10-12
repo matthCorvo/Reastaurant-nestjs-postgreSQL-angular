@@ -1,8 +1,9 @@
 import { Type } from 'class-transformer';
 import { CreateShippingDto } from './create-shipping.dto';
-import { IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNotEmptyObject, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { OrderedProductsDto } from './ordered-products.dto';
 import { ApiProperty } from '@nestjs/swagger';
+
 
 export class CreateOrderDto {
   @ApiProperty()
@@ -16,22 +17,28 @@ export class CreateOrderDto {
   name: string;
 
   @ApiProperty()
+  @IsNotEmpty({ message: 'Le nom ne peut être vide' })
+  @IsString({ message: 'Le nom doit être une chaîne de caractères' })
+  userId: string;
+
+  @ApiProperty()
   @IsNotEmpty({ message: 'Adresse ne peut être vide' })
   @IsString({ message: 'Adresse doit être une chaîne de caractères' })
   adresse: string;
 
-  @ApiProperty()
-  @IsNotEmpty({ message: 'paymentId ne peut être vide' })
-  @IsString({ message: 'paymentId doit être une chaîne de caractères' })
-  paymentId: string;
+  // @ApiProperty()
+  // @IsNotEmpty({ message: 'paymentId ne peut être vide' })
+  // @IsString({ message: 'paymentId doit être une chaîne de caractères' })
+  // paymentId: string;
 
-  @ApiProperty()
-  @Type(() => CreateShippingDto)
+  @ApiProperty({ type: () => CreateShippingDto })
   @ValidateNested()
   addressLatLng: CreateShippingDto;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => OrderedProductsDto })
+  @IsNotEmpty({ each: true })
+  @ValidateNested({ each: true })
+  @IsNotEmptyObject({ nullable: false }, { each: true })
   @Type(() => OrderedProductsDto)
-  @ValidateNested()
-  orderedProducts: OrderedProductsDto[];
+  order: OrderedProductsDto[];
 }

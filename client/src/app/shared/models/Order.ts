@@ -1,15 +1,15 @@
-// import { LatLng } from "leaflet";
 import { LatLng } from "leaflet";
 import { CartItem } from "./CartItem";
+import { User } from "./User";
 
 export class Order{
   id!:number;
-  items!: CartItem[];
+  order!: CartItem[];
   totalPrice!:number;
   name!: string;
   adresse!: string;
   addressLatLng?:LatLng;
-  paymentId!: string;
   createdAt!: string;
   status!: string;
+  userId!:number;
 }

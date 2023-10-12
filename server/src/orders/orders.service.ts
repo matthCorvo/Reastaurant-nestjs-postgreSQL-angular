@@ -1,156 +1,96 @@
 import {
   Injectable,
-  forwardRef,
-  Inject,
 } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UserEntity } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from './entities/order.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { OrdersProductsEntity } from './entities/orders-products.entity';
+import { FoodEntity } from 'src/food/entities/food.entity';
+import { CreateOrderDto } from './dto/create-order.dto';
 import { ShippingEntity } from './entities/shipping.entity';
-import { FoodEntity } from '../food/entities/food.entity';
-import { FoodService } from '../food/food.service';
+import { FoodService } from 'src/food/food.service';
+import { OrderedProductsDto } from './dto/ordered-products.dto';
+import { UserService } from 'src/users/users.service';
 
 @Injectable()
 export class OrdersService {
+  private orders = [];
+
   constructor(
     @InjectRepository(OrderEntity)
     private readonly orderRepository: Repository<OrderEntity>,
     @InjectRepository(OrdersProductsEntity)
-    private readonly opRepository: Repository<OrdersProductsEntity>,
-    @Inject(forwardRef(() => FoodService))
+    private readonly ordersProductsRepository: Repository<OrdersProductsEntity>,
+    @InjectRepository(ShippingEntity)
+    private readonly shippingRepository: Repository<ShippingEntity>,
+    @InjectRepository(FoodEntity)
+    private readonly foodRepository: Repository<FoodEntity>,
     private readonly foodService: FoodService,
-  ) {}
-  async create(
-    createOrderDto: CreateOrderDto,
-    currentUser: UserEntity,
-  ): Promise<OrderEntity> {
-    const shippingEntity = new ShippingEntity();
-    Object.assign(shippingEntity, createOrderDto.addressLatLng);
+    private readonly userService: UserService,
 
-    const orderEntity = new OrderEntity();
-    orderEntity.addressLatLng = shippingEntity;
-    orderEntity.user = currentUser;
+    ) {}
 
-    const orderSave = await this.orderRepository.save(orderEntity);
+  async getAllOrders(): Promise<OrderEntity[]> {
+    return this.orderRepository.find({
+      relations: ['orderedProducts', 'orderedProducts.food', 'addressLatLng'],
+    });
+  }
+  
+  // Suggestion 2
+//   create(orderAttr: Partial<OrderEntity>) {
+//     const order = this.orderRepository.create(orderAttr);
+//     return this.orderRepository.save(order);
+// }
 
-    const opEntity: {
-      order: OrderEntity;
-      food: FoodEntity;
-      quantity: number;
-      price: number;
-    }[] = [];
+async createOrder(
+  userId: number | null,
+  orderData: CreateOrderDto,
+): Promise<OrderEntity> {
+  const order = new OrderEntity();
+  if (userId) {
+    order.user = await this.userService.findUserById(userId);
+  }
+  order.order = await this.getItems(order, orderData.order);
+  order.name = orderData.name;
+  order.adresse = orderData.adresse;
+  order.totalPrice = orderData.totalPrice;
+  order.userId = orderData.userId;
+ 
+  return this.orderRepository.save(order);
+}
 
-    for (let i = 0; i < createOrderDto.orderedProducts.length; i++) {
-      const order = orderSave;
-      const food = await this.foodService.findById(
-        createOrderDto.orderedProducts[i].id,
-      );
-      const quantity = createOrderDto.orderedProducts[i].quantity;
-      const price = createOrderDto.orderedProducts[i].price;
-      opEntity.push({
-        order,
-        food,
-        quantity,
-        price,
-      });
-    }
+private async getItems(orderEntity: OrderEntity, orders: OrderedProductsDto[]) {
+  const res = [];
+  for (const order of orders) {
+    const orderProduct = await this.foodService.findById(
+      order.id,
+      orderEntity.userId
+    );
+    res.push({
+      orderProduct,
+      quantity: order.quantity,
+      price: order.price,
+    } as OrdersProductsEntity);
+  }
+  return res;
+}
 
-    const op = await this.opRepository
-      .createQueryBuilder()
-      .insert()
-      .into(OrdersProductsEntity)
-      .values(opEntity)
-      .execute();
 
-    return await this.findOne(orderSave.id);
+
+  async deleteOrder(id: number): Promise<void> {
+    await this.orderRepository.delete(id);
   }
 
-  async findAll(): Promise<OrderEntity[]> {
-    return await this.orderRepository.find({
-      relations: {
-        addressLatLng: true,
-        user: true,
-        foods: { food: true },
+  async getNewOrderForCurrentUser(userId: string): Promise<OrderEntity> {
+    // Use TypeORM to query the database for the new order for the current user.
+    
+    const order = await this.orderRepository.findOne({
+      where: {
+        userId,
       },
+      relations: ['orderedProducts', 'addressLatLng'],
     });
+
+    return order;
   }
-
-  async findOne(id: number): Promise<OrderEntity> {
-    return await this.orderRepository.findOne({
-      where: { id },
-      relations: {
-        addressLatLng: true,
-        user: true,
-        foods: { food: true },
-      },
-    });
-  }
-
-  async findOneByProductId(id: number) {
-    return await this.opRepository.findOne({
-      relations: { food: true },
-      where: { food: { id: id } },
-    });
-  }
-
-  // async update(
-  //   id: number,
-  //   updateOrderStatusDto: UpdateOrderStatusDto,
-  //   currentUser: UserEntity,
-  // ) {
-  //   let order = await this.findOne(id);
-  //   if (!order) throw new NotFoundException('Order not found');
-
-  //   if (
-  //     order.status === OrderStatus.DELIVERED ||
-  //     order.status === OrderStatus.CANCELED
-  //   ) {
-  //     throw new BadRequestException(`Order already ${order.status}`);
-  //   }
-  //   if (
-  //     order.status === OrderStatus.PAYED &&
-  //     updateOrderStatusDto.status != OrderStatus.SHIPPED
-  //   ) {
-  //     throw new BadRequestException(`Delivery before shipped !!!`);
-  //   }
-  //   if (
-  //     updateOrderStatusDto.status === OrderStatus.SHIPPED &&
-  //     order.status === OrderStatus.SHIPPED
-  //   ) {
-  //     return order;
-  //   }
-  //   if (updateOrderStatusDto.status === OrderStatus.SHIPPED) {
-  //     order.shippedAt = new Date();
-  //   }
-  //   if (updateOrderStatusDto.status === OrderStatus.DELIVERED) {
-  //     order.deliveredAt = new Date();
-  //   }
-  //   order.status = updateOrderStatusDto.status;
-  //   order.updatedBy = currentUser;
-  //   order = await this.orderRepository.save(order);
-  //   if (updateOrderStatusDto.status === OrderStatus.DELIVERED) {
-  //     await this.stockUpdate(order, OrderStatus.DELIVERED);
-  //   }
-  //   return order;
-  // }
-
-  // async cancelled(id: number, currentUser: UserEntity) {
-  //   let order = await this.findOne(id);
-  //   if (!order) throw new NotFoundException('Order Not Found.');
-
-  //   if (order.status === OrderStatus.CANCELED) return order;
-
-  //   order.status = OrderStatus.CANCELED;
-  //   order = await this.orderRepository.save(order);
-  //   await this.stockUpdate(order, OrderStatus.CANCELED);
-  //   return order;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
-  }
-
 }

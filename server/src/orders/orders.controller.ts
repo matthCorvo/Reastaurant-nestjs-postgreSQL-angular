@@ -5,63 +5,60 @@ import {
   Body,
   Param,
   Delete,
-  Req,
+  ReqUser,
+  HttpStatus,
+  HttpException,
+  InternalServerErrorException
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UserEntity } from 'src/users/entities/user.entity';
 import { OrderEntity } from './entities/order.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { OrdersProductsEntity } from './entities/orders-products.entity';
+import { OrderedProductsDto } from './dto/ordered-products.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Controller('orders')
 @ApiTags('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  // @UseGuards(AuthenticationGuard)
-  @Post('create')
-  async create(
-    @Body() createOrderDto: CreateOrderDto,
-    @Req() currentUser: UserEntity,
-  ): Promise<OrderEntity> {
-    return await this.ordersService.create(createOrderDto, currentUser);
-  }
 
   @Get()
-  async findAll(): Promise<OrderEntity[]> {
-    return await this.ordersService.findAll();
+  async getAllOrders(): Promise<OrderEntity[]> {
+    return this.ordersService.getAllOrders();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<OrderEntity> {
-    return await this.ordersService.findOne(+id);
+  @Post('create')
+  async createOrder(
+    @ReqUser() user: UserEntity | null,
+    @Body() body: CreateOrderDto,
+  ): Promise<OrderEntity> {
+    return await this.ordersService.createOrder(user?.id ?? null, body);
   }
-
-  // @UseGuards(AuthenticationGuard, AuthorizeGuard([Roles.ADMIN]))
-  // @Put(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateOrderStatusDto: UpdateOrderStatusDto,
-  //   @CurrentUser() currentUser: UserEntity,
-  // ) {
-  //   return await this.ordersService.update(
-  //     +id,
-  //     updateOrderStatusDto,
-  //     currentUser,
-  //   );
-  // }
-
-  // @Put('cancel/:id')
-  // // @UseGuards(AuthenticationGuard, AuthorizeGuard([Roles.ADMIN]))
-  // async cancelled(
-  //   @Param('id') id: string,
-  //   @CurrentUser() currentUser: UserEntity,
-  // ) {
-  //   return await this.ordersService.cancelled(+id, currentUser);
-  // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  async deleteOrder(@Param('id') id: number): Promise<void> {
+    return this.ordersService.deleteOrder(id);
+  }
+
+  @Get('newOrderForCurrentUser')
+  async getNewOrderForCurrentUser(userId: string): Promise<any> {
+    try {
+      const order = await this.ordersService.getNewOrderForCurrentUser(userId);
+      if (order) {
+        return order;
+      } else {
+        return {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'No new order found',
+        };
+      }
+    } catch (error) {
+      return {
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Internal server error',
+      };
+    }
   }
 }

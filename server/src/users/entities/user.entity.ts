@@ -1,5 +1,5 @@
 import { OrderEntity } from '../../orders/entities/order.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Roles } from './user-roles.enum';
 
 @Entity({ name: 'user' })
@@ -27,8 +27,7 @@ export class UserEntity {
   @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.USER] })
   role: Roles[];
 
-  // un utilisateur peur avoir plusieur commande
-  @OneToMany(() => OrderEntity, (order) => order.user)
-  orders: OrderEntity;
+  //  @OneToMany(() => OrderEntity, (order) => order.user)
+  // orders: OrderEntity;
 
 }

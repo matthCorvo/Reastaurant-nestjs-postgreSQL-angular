@@ -16,7 +16,7 @@ export class AuthController {
     // //   jwt token
     const user: UserEntity = req.user;
     const payload = {
-      userId: user.id,
+      id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,

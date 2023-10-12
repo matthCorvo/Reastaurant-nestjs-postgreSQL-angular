@@ -1,6 +1,6 @@
 // le modèle des plats côté serveur
 export class Food {
-    id!:string;
+    id!:number;
     name!:string;
     price!:number;
     imageUrl!: string;
