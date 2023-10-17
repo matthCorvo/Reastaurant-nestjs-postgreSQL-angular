@@ -5,8 +5,20 @@
 Pour installer les dépendances, suivez les étapes ci-dessous :
 ### Frontend (Angular)
 <div id="" align="center">
- <img src=".png" width="100%"/>
+ <img src="front.png" width="100%"/>
 </div>
+
+### Frontend (Angular)
+Installez les dépendances du frontend en exécutant la commande :
+
+```
+npm install
+```
+
+Lancez le serveur  :
+```
+ng serve
+```
 
 ### Backend (Nest.js)
 
@@ -31,23 +43,7 @@ REST API
 
 Accédez au Swagger API  : http://localhost:3000/api
 
-Frontend (Angular)
-Installez les dépendances du frontend en exécutant la commande :
 
-```
-npm install
-```
-
-Lancez le serveur  :
-```
-ng serve
-```
-
-exécuter les tests du frontend :
-```
-ng test
-
-```
 ## Dépendances
 
 Ce projet utilise les technologies suivantes :
