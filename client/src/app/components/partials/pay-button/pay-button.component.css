@@ -1,0 +1,10 @@
+  
+  .btn-valid {
+    background-color: #00ccbc; 
+    border: none;
+    border-radius: 5px;
+    padding: 15px 0px;
+    text-decoration: none;
+    /* margin-bottom: 10px; */
+    width: 100%;
+}

@@ -1,0 +1,52 @@
+<!--  affichage si le panier est vide -->
+<app-empty   
+[visible]="!cart || !cart.items.length">
+</app-empty>
+
+<div *ngIf="cart && cart.items.length" class="d-flex flex-column">
+    <h4 class="title"> Votre commande</h4>
+        <ul class="basket-content-list">
+            
+            <li class="basket-items mb-3" *ngFor="let cartItem of cart.items">
+                <span>
+                    {{cartItem.food.name}}
+                </span>
+
+                <div>
+                    <button class="btn-quantity me-2" (click)="decrementQuantity(cartItem)">-</button>
+                    <span class="fw-bold">{{ cartItem.quantity }}</span>
+               
+                    <button class="btn-quantity ms-2" (click)="incrementQuantity(cartItem)">+</button>
+                  </div>
+
+                <span>      
+                    {{cartItem.price}} €
+                </span>
+                <button class="btn-trash" (click)="removeFromCart(cartItem)">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+                
+            </li>
+
+        </ul>
+     
+    <div class="basket-content mt-1">
+        <div class="basket-text">
+            <span>Quantités</span>
+            <span>x{{cart.totalCount}} </span>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="basket-content">
+        <div class="basket-text fw-bold">
+            <span>Total</span>
+            <span>{{cart.totalPrice}} € </span>
+        </div>
+    </div>
+
+    <a routerLink="/checkout" class="btn-valid text-white d-flex justify-content-center align-items-center">
+        <h4 class="m-0">Finaliser la demande</h4>
+    </a>
+</div>

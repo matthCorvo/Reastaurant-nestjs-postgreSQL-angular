@@ -1,0 +1,66 @@
+h4.title {
+    padding: 4px 50px 24px 0px;
+}
+
+h4 {
+    padding: 14px 50px 14px 50px;
+}
+
+.food-add{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.basket-content{
+    padding-bottom: 14px;
+    padding-top: 14px;
+    border-top: 2px solid rgba(0,0,0,.08);
+}
+
+.basket-text{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 4px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.btn-valid {
+    background-color: #829493bf; 
+    border: none;
+    border-radius: 5px;
+
+}
+
+ul {
+    list-style: none;
+}
+
+
+.basket-items {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #2e3333;   
+}
+
+ul{
+   padding-left: 0px !important;  
+}
+.fa-trash{
+    color: red;
+}
+
+.btn-trash{
+    background-color: transparent;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+}
