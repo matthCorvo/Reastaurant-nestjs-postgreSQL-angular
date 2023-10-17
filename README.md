@@ -1,4 +1,4 @@
-# Projet Restaurant avec Nest.js, PostgreSQL et Angular
+# Projet Clone DELIVEROO avec Nest.js, PostgreSQL et Angular
 
 ## Installation
 
