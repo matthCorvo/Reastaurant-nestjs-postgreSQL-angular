@@ -3,59 +3,65 @@ import {
   Get,
   Post,
   Body,
-  Param,
-  Delete,
-  HttpStatus,
+  Res,
   Req,
-  InternalServerErrorException
+  Param,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { OrderEntity } from './entities/order.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { OrdersProductsEntity } from './entities/orders-products.entity';
-import { OrderedProductsDto } from './dto/ordered-products.dto';
-import { UserEntity } from '../users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { OrderStatus } from './enums/order-status.enum';
 
 @Controller('orders')
 @ApiTags('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(
+    public ordersService: OrdersService,
+    @InjectRepository(OrderEntity)
+    private readonly orderRepository: Repository<OrderEntity>,
+  ) 
 
-
-  @Get()
-  async getAllOrders(): Promise<OrderEntity[]> {
-    return this.ordersService.getAllOrders();
-  }
-
+  {}
+ 
   @Post('create')
-  async createOrder(@Body() createOrderDto: CreateOrderDto, @Req() req): Promise<OrderEntity> {
-    const userId = req.user.id; // Assuming you have the user ID stored in the req.user object
+  createOrder(@Body() createOrderDto: CreateOrderDto, @Req() req: any) {
+    const userId = req.user.id;
     return this.ordersService.createOrder(createOrderDto, userId);
+  
+  }
+  
+  
+
+@Get('newOrderForCurrentUser')
+async getNewOrderForCurrentUser(@Req() req): Promise<OrderEntity> {
+  const userId = req.user.id;
+  return this.ordersService.getNewOrderForCurrentUser(userId);
+
+}
+
+@Post('pay')
+async pay(@Req() req) {
+  const order = await this.ordersService.getNewOrderForCurrentUser(req.user.id);
+
+  if (!order) {
+    throw new Error('Order Not Found!');
   }
 
-  @Delete(':id')
-  async deleteOrder(@Param('id') id: number): Promise<void> {
-    return this.ordersService.deleteOrder(id);
-  }
+  order.paymentId = true;
+  order.status = OrderStatus.PAYED;
+  await this.ordersService.saveOrder(order);
 
-  @Get('newOrderForCurrentUser')
-  async getNewOrderForCurrentUser(userId: number): Promise<any> {
-    try {
-      const order = await this.ordersService.getNewOrderForCurrentUser(userId);
-      if (order) {
-        return order;
-      } else {
-        return {
-          statusCode: HttpStatus.NOT_FOUND,
-          message: 'No new order found',
-        };
-      }
-    } catch (error) {
-      return {
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal server error',
-      };
-    }
-  }
+  return order.id;
+}
+
+
+
+@Get('track/:id')
+async trackOrder(@Param('id') id: number) {
+  return await this.orderRepository.findOne({where: {id : id}});
+}
+
 }

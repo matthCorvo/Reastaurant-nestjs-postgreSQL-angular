@@ -9,5 +9,7 @@ export const Constants = {
     '/orders/:id',
     '/orders/create',
     '/orders/newOrderForCurrentUser',
+    '/orders/pay',
+    '/orders/track/:id',
   ] 
 };

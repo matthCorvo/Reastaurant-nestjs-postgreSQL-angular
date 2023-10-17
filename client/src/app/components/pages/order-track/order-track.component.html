@@ -3,30 +3,29 @@
   
       <div class="row g-5 mt-5 mb-5 ">
        
-        <div class="border rounded p-4 bg-white">
-          <h4 class="mb-3">Vérifiez votre commande chez NeoKebab</h4>
+        <div class="border rounded p-4 bg-white" *ngIf="order" >
+          <h4 class="mb-3">Facture NeoKebab</h4>
+          <form class="needs-validation" novalidate="">
             <div class="row g-3">
                 <div class="summary">
                     <div>
-                      <h3>Nom:</h3>
-                      <span>{{order.name}}</span>
+                      <h3>Commande # {{order.id}}</h3>
                     </div>
                     <div>
-                      <h3>Adresse:</h3>
-                      <span>{{order.adresse}}</span>
+                      <h6>Date : {{order.createdAt | date:"medium" }}</h6>
                     </div>
-                    <div class="map">
-                    <app-map [order]="order" [readonly]="true"></app-map>
-                  </div>
+                    <div>
+                      <h6>Status : {{order.status}} </h6>
+                    </div>
+                    
                   </div>
             </div>
              <div class=" card-checkout">
                         
           <app-food-list [order]="order"></app-food-list>
         </div>
-            <app-pay-button [order]="order">
-
-            </app-pay-button>
+           
+          </form>
         </div>
       </div>
     </main>

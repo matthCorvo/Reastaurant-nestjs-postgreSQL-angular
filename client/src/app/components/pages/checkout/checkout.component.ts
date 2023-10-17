@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit {
                 const cart = cartService.getCart();
                 this.order.order = cart.items;
                 this.order.totalPrice = cart.totalPrice;
-                this.order.userId = this.userService.currentUser.id;
+                // this.order.userId = this.userService.currentUser.id;
               }
 
   ngOnInit(): void {

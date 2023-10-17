@@ -3,51 +3,54 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 import { OrderStatus } from '../enums/order-status.enum';
-import { ShippingEntity } from './shipping.entity';
-import { OrdersProductsEntity } from './orders-products.entity';
-import { FoodEntity } from 'src/food/entities/food.entity';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { LatLngEntity } from './LatLng.entity';
+import { UserEntity } from '../../users/entities/user.entity';
+import { OrderItemEntity } from './orders-items.entity';
 
 @Entity({ name: 'orders' })
 export class OrderEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  public id: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  public createdAt: Date;
 
   @Column({
     type: 'enum',
     enum: OrderStatus,
-    array: true,
-    default: [OrderStatus.NEW],
+    default: OrderStatus.NEW,
   })
-  status: OrderStatus[];
+  public status: string;
 
-  @Column('integer', { nullable: false })
-  totalPrice: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  public totalPrice: number;
 
-  @Column('varchar', { nullable: false })
-  name: string;
+  @Column('varchar')
+  public name: string;
 
-  @Column('varchar', { nullable: false })
-  userId: number;
-  
-  @Column('varchar', { nullable: false })
-  adresse: string;
+  @Column()
+  public paymentId: boolean = false;
 
-  @OneToOne(() => ShippingEntity, (ship) => ship.order, { cascade: true })
+  @Column('varchar')
+  public adresse: string;
+
+  @OneToOne(() => LatLngEntity, { cascade: true, eager: true })
   @JoinColumn()
-  addressLatLng: ShippingEntity;
+  public addressLatLng: LatLngEntity;
 
-  @OneToMany(() => OrdersProductsEntity, (orderProduct) => orderProduct.order, { cascade: true })
-  orderProducts: OrdersProductsEntity[];
+  @ManyToOne(() => UserEntity, (user) => user.order)
+  public user: UserEntity;
 
-
+  @OneToOne(() => OrderItemEntity, { eager: true })
+  @JoinColumn()
+  orderItems: OrderItemEntity[];
 }

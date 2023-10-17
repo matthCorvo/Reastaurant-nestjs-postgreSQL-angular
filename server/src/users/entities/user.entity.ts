@@ -1,5 +1,5 @@
 import { OrderEntity } from '../../orders/entities/order.entity';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Roles } from './user-roles.enum';
 
 @Entity({ name: 'user' })
@@ -27,7 +27,7 @@ export class UserEntity {
   @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.USER] })
   role: Roles[];
 
-  //  @OneToMany(() => OrderEntity, (order) => order.user)
-  // orders: OrderEntity;
+  @OneToMany(() => OrderEntity, (order) => order.user )
+  order: OrderEntity[];
 
 }

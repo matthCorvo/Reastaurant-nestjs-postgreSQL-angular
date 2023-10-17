@@ -1,44 +1,39 @@
-import { Type } from 'class-transformer';
-import { CreateShippingDto } from './create-shipping.dto';
-import { IsArray, IsNotEmpty, IsNotEmptyObject, IsNumber, IsString, ValidateNested } from 'class-validator';
-import { OrderedProductsDto } from './ordered-products.dto';
+import { OrderItemDto } from './order-item.dto';
 import { ApiProperty } from '@nestjs/swagger';
-
+import { OrderStatus } from '../enums/order-status.enum';
+import { LatLngDto } from './latlng.dto';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { IsNotEmpty } from 'class-validator';
+import { OrderItemEntity } from '../entities/orders-items.entity';
 
 export class CreateOrderDto {
   @ApiProperty()
-  @IsNotEmpty()
-  @IsNumber()
+  id: number;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiProperty({ enum: OrderStatus })
+  status: OrderStatus;
+
+  @ApiProperty()
   totalPrice: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Le nom ne peut être vide' })
-  @IsString({ message: 'Le nom doit être une chaîne de caractères' })
   name: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Le nom ne peut être vide' })
-  @IsString({ message: 'Le nom doit être une chaîne de caractères' })
-  userId: string;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: 'Adresse ne peut être vide' })
-  @IsString({ message: 'Adresse doit être une chaîne de caractères' })
   adresse: string;
 
-  // @ApiProperty()
-  // @IsNotEmpty({ message: 'paymentId ne peut être vide' })
-  // @IsString({ message: 'paymentId doit être une chaîne de caractères' })
-  // paymentId: string;
+  @ApiProperty()
+  paymentId!: string;
 
-  @ApiProperty({ type: () => CreateShippingDto })
-  @ValidateNested()
-  addressLatLng: CreateShippingDto;
+  @ApiProperty()
+  addressLatLng: LatLngDto;
 
-  @ApiProperty({ type: () => OrderedProductsDto })
-  @IsNotEmpty({ each: true })
-  @ValidateNested({ each: true })
-  @IsNotEmptyObject({ nullable: false }, { each: true })
-  @Type(() => OrderedProductsDto)
-  orderProducts: OrderedProductsDto[];
+  @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
+  orderItems: OrderItemDto[];
 }

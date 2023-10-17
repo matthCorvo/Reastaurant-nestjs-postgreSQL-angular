@@ -4,6 +4,8 @@ import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
@@ -16,6 +18,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>,
+    private configService: ConfigService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
@@ -26,7 +29,12 @@ export class UserService {
     const saltRounds = 10; // You can configure the number of salt rounds
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(createUserDto.password, salt);    user.adresse = createUserDto.adresse;
-    return this.usersRepository.save(user);
+    const newUser = await this.usersRepository.save(user);
+
+      // Generate the token response
+      const tokenResponse = this.generateTokenResponse(newUser);
+
+      return tokenResponse;
   }
 
   findUserById(id: number) {
@@ -44,4 +52,26 @@ export class UserService {
   remove(id: number) {
     return this.usersRepository.delete(id);
   }
+
+   generateTokenResponse(user: UserEntity): any {
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      this.configService.get('JWT_KEY'),
+      {
+        expiresIn: '30d',
+      },
+    );
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      adresse: user.adresse,
+      token: token,
+    };
+  }
+
 }

@@ -1,88 +1,77 @@
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from './entities/order.entity';
-import { DeepPartial, Repository } from 'typeorm';
-import { OrdersProductsEntity } from './entities/orders-products.entity';
-import { FoodEntity } from '../food/entities/food.entity';
+import { Repository } from 'typeorm';
+import { OrderStatus } from './enums/order-status.enum';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { ShippingEntity } from './entities/shipping.entity';
-import { FoodService } from '../food/food.service';
-import { OrderedProductsDto } from './dto/ordered-products.dto';
-import { UserService } from '../users/users.service';
+import { LatLngEntity } from './entities/LatLng.entity';
+import { OrderItemEntity } from './entities/orders-items.entity';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Injectable()
 export class OrdersService {
-  private orders = [];
-
   constructor(
     @InjectRepository(OrderEntity)
     private readonly orderRepository: Repository<OrderEntity>,
-    @InjectRepository(OrdersProductsEntity)
-    private readonly ordersProductsRepository: Repository<OrdersProductsEntity>,
-    @InjectRepository(ShippingEntity)
-    private readonly shippingRepository: Repository<ShippingEntity>,
-    @InjectRepository(FoodEntity)
-    private readonly foodRepository: Repository<FoodEntity>,
-    private readonly foodService: FoodService,
-    private readonly userService: UserService,
-
-    ) {}
-
-  async getAllOrders(): Promise<OrderEntity[]> {
-    return this.orderRepository.find({
-      relations: ['orderedProducts', 'addressLatLng'],
-    });
-  }
+    @InjectRepository(OrderItemEntity)
+    private readonly orderItemRepository: Repository<OrderItemEntity>,
+    private latLngEntity: LatLngEntity,
+    private orderItemEntity: OrderItemEntity,
+  ) {}
   
-  // Suggestion 2
-//   create(orderAttr: Partial<OrderEntity>) {
-//     const order = this.orderRepository.create(orderAttr);
-//     return this.orderRepository.save(order);
-// }
+  async createOrder(createOrderDto: CreateOrderDto, userId: number): Promise<OrderEntity> {
+    await this.deleteExistingOrders(userId);
+  
+    const newOrder = await this.createOrderEntity(createOrderDto, userId);
+    const savedOrder = await this.orderRepository.save(newOrder);
+  
+    // savedOrder.addressLatLng = newOrder.addressLatLng;
+    await this.orderRepository.save(savedOrder);
+  
+    return savedOrder;
+  }
 
-async createOrder(createOrderDto: CreateOrderDto, userId: number): Promise<OrderEntity> {
-  console.log('createOrderDto', createOrderDto);
+    
+  async createOrderEntity(createOrderDto: CreateOrderDto, userId: number): Promise<OrderEntity> {
+    const order = new OrderEntity();
+    // Map the properties from the DTO to the entity
+    order.name = createOrderDto.name;
+    order.adresse = createOrderDto.adresse;
+    order.totalPrice = createOrderDto.totalPrice;
+    order.user = { id: userId } as UserEntity;
+    order.addressLatLng = createOrderDto.addressLatLng as LatLngEntity;
+  
+    // const orderItems = plainToInstance(OrderItemEntity, createOrderDto.orderItems);
+    order.orderItems = createOrderDto.orderItems as OrderItemEntity[];
+   // Save the order with the updated order items
+   const updatedOrder = await this.orderRepository.save(order);
 
-  const newOrder = new OrderEntity();
-  newOrder.userId = userId;
-  newOrder.totalPrice = createOrderDto.totalPrice;
-  newOrder.name = createOrderDto.name;
-  newOrder.adresse = createOrderDto.adresse;
-
-  // ... other property assignments
-
-  const orderProducts = createOrderDto.orderProducts.map((orderedProduct) => {
-    const orderedProductEntity = new OrdersProductsEntity();
-    orderedProductEntity.price = orderedProduct.price;
-    orderedProductEntity.quantity = orderedProduct.quantity;
-    orderedProductEntity.order = newOrder;
-    orderedProductEntity.food.id = orderedProduct.food;
-    return orderedProductEntity;
-  });
-
-  newOrder.orderProducts = orderProducts;
-
-  console.log('order', newOrder);
-
-  return this.orderRepository.save(newOrder);
+   return updatedOrder;
 }
 
-  async deleteOrder(id: number): Promise<void> {
-    await this.ordersProductsRepository.delete(id);
+
+  
+   private async deleteExistingOrders(userId: number): Promise<void> {
+    if (!userId) {
+      throw new Error('User ID is undefined');
+    }
+  
+    await this.orderRepository.delete({
+      user: { id: userId },
+      status: OrderStatus.NEW,
+    });
   }
+
 
   async getNewOrderForCurrentUser(userId: number): Promise<OrderEntity> {
-    // Use TypeORM to query the database for the new order for the current user.
-    
-    const order = await this.orderRepository.findOne({
-      where: {
-        userId,
-      },
-      relations: ['orderedProducts', 'addressLatLng'],
+    return this.orderRepository.findOne({
+      where: { user: { id: userId }, status: OrderStatus.NEW },
     });
-
-    return order;
   }
+
+  async saveOrder(order: OrderEntity): Promise<OrderEntity> {
+    return this.orderRepository.save(order);
+  }
+
+
 }

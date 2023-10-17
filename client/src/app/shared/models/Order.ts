@@ -8,6 +8,7 @@ export class Order{
   totalPrice!:number;
   name!: string;
   adresse!: string;
+  paymentId!: boolean;
   addressLatLng?:LatLng;
   createdAt!: string;
   status!: string;

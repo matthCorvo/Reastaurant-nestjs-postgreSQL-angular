@@ -25,6 +25,9 @@ import { TextInputComponent } from './components/partials/text-input/text-input.
 import { FoodListComponent } from './components/partials/food-list/food-list.component';
 import { MapComponent } from './components/partials/map/map.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { JwtModule } from '@auth0/angular-jwt';
+import { PayButtonComponent } from './components/partials/pay-button/pay-button.component';
+import { OrderTrackPageComponent } from './components/pages/order-track/order-track.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     TextInputComponent,
     FoodListComponent,
     MapComponent,
+    PayButtonComponent,
+    OrderTrackPageComponent,
 
   ],
   imports: [
@@ -61,7 +66,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     BrowserAnimationsModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi: true },
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })
