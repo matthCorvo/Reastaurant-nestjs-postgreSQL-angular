@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
   }
 
   search(searchTerm:string):void{
-    console.log('Search function called with searchTerm:', searchTerm);
+    console.log('Fonction de recherche appelée avec searchTerm:', searchTerm);
     if (searchTerm){
       this.router.navigateByUrl('/search/'+ searchTerm);
     } else {

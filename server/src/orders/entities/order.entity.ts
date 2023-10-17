@@ -3,13 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  RelationId,
 } from 'typeorm';
 import { OrderStatus } from '../enums/order-status.enum';
 import { LatLngEntity } from './LatLng.entity';
@@ -43,13 +39,16 @@ export class OrderEntity {
   @Column('varchar')
   public adresse: string;
 
+  // Relation "Une commandes a une adresse LatLng",
   @OneToOne(() => LatLngEntity, { cascade: true, eager: true })
   @JoinColumn()
   public addressLatLng: LatLngEntity;
 
+  // Relation "Plusieurs commandes appartiennent à un utilisateur"
   @ManyToOne(() => UserEntity, (user) => user.order)
   public user: UserEntity;
 
+  // Relation "Une commandes a plusieurs éléments de commande"
   @OneToOne(() => OrderItemEntity, { eager: true })
   @JoinColumn()
   orderItems: OrderItemEntity[];

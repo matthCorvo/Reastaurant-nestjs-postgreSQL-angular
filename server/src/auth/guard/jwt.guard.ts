@@ -9,12 +9,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const request = ctx.getRequest<Request>();
     const requestedUrl = request.url;
 
-    // Check if the requested URL matches any of the patterns in BY_PASS_URLS
+    // Vérifiez si l'URL demandée correspond à l'un des modèles dans BY_PASS_URLS
     const match = Constants.BY_PASS_URLS.some((pattern) => {
-      // Replace route parameters in pattern with Express-style wildcards
+      // Remplacez les paramètres de route dans le modèle par des caractères génériques de style Express
       const patternWithWildcards = pattern.replace(/\/:([^/]+)/g, '/:*');
       
-      // Use Express-style path matching
+      // Utiliser la correspondance de chemin de style Express
       const isMatch = requestedUrl.match(patternWithWildcards);
       
       return !!isMatch;

@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   ValidationPipe,
@@ -21,11 +20,21 @@ import { Roles } from './entities/user-roles.enum';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+    /**
+   * Créer un nouvel utilisateur
+   * @param createUserDto Les données de l'utilisateur à créer
+   * @returns L'utilisateur créé
+   */
   @Post('/register')
   create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
+  /**
+   * Récupérer tous les utilisateurs 
+   * @param req La requête HTTP
+   * @returns La liste de tous les utilisateurs
+   */
   @ApiSecurity('JWT-auth')
   @Get()
   @UseGuards(new RoleGuard(Roles.ADMIN))
@@ -34,6 +43,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  /**
+   * Supprimer un utilisateur par ID 
+   * @param id L'ID de l'utilisateur à supprimer
+   * @param req La requête HTTP
+   * @returns L'utilisateur supprimé
+   */
   @ApiSecurity('JWT-auth')
   @Delete(':id')
   @UseGuards(new RoleGuard(Roles.ADMIN))

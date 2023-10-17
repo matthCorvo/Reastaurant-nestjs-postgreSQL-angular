@@ -18,7 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return this.userService.generateTokenResponse(payload); // Call the generateTokenResponse method from the UserService
+    // Appel de la méthode generateTokenResponse depuis le UserService
+    return this.userService.generateTokenResponse(payload);
 
   }
 }

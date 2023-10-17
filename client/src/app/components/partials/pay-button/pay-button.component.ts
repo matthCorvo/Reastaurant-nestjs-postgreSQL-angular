@@ -30,10 +30,10 @@ export class PayButtonComponent implements OnInit{
         next: (orderId) => {
           this.cartService.clearCart();
           this.router.navigateByUrl('/track/' + orderId);
-          this.toastrService.success('Payment Saved Successfully', 'Success');
+          this.toastrService.success(' Paiement enregistré avec succès', 'Success');
         },
         error: () => {
-          this.toastrService.error('Payment Save Failed', 'Error');
+          this.toastrService.error('Échec de enregistrement du paiement', 'Error');
         },
       });
     });

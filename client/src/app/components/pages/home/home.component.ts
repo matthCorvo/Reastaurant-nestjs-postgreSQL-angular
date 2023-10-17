@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(food: Food) {
-    console.log('Add to Cart clicked for food:', food);
+    console.log('Ajouter au panier :', food);
     this.cartService.addToCart(food);
     // this.router.navigate(['/']);
   }

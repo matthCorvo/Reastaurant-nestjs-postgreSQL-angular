@@ -14,11 +14,11 @@ export class PaymentComponent implements OnInit {
  constructor(orderService: OrderService, router: Router) {
   orderService.getNewOrderForCurrentUser().subscribe({
     next: (order) => {
-      console.log('Received order:', order); // Add this line
+      console.log(' commande reçu:', order);
       this.order = order;
     },
     error: (error) => {
-      console.error('Error:', error); // Add this line
+      console.error('Error:', error); 
       router.navigateByUrl('/checkout');
     }
   });

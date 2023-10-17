@@ -21,38 +21,69 @@ export class UserService {
     private configService: ConfigService,
   ) {}
 
+    /**
+   * Crée un nouvel utilisateur enregistré dans la base de données.
+   * @param createUserDto Les données de l'utilisateur à créer
+   * @returns L'utilisateur créé avec un token d'authentification
+   */
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const user: UserEntity = new UserEntity();
     user.email = createUserDto.email;
     user.name = createUserDto.name;
-    // Hash the password before saving it
-    const saltRounds = 10; // You can configure the number of salt rounds
+    // Hache le mot de passe avant de l'enregistrer
+    const saltRounds = 10; // Vous pouvez configurer le nombre de tours de sel
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(createUserDto.password, salt);    user.adresse = createUserDto.adresse;
+    
+    // Enregistre le nouvel utilisateur dans la base de données
     const newUser = await this.usersRepository.save(user);
 
-      // Generate the token response
-      const tokenResponse = this.generateTokenResponse(newUser);
+    // Génère la réponse du token d'authentification
+    const tokenResponse = this.generateTokenResponse(newUser);
 
-      return tokenResponse;
+    return tokenResponse;
   }
 
+  /**
+   * Recherche un utilisateur par son ID.
+   * @param id L'ID de l'utilisateur recherché
+   * @returns L'utilisateur trouvé
+   */
   findUserById(id: number) {
     return this.usersRepository.findOneOrFail({ where: { id: id } });
   }
 
+  /**
+   * Récupère la liste de tous les utilisateurs.
+   * @returns La liste de tous les utilisateurs
+   */
   findAll() {
     return this.usersRepository.find();
   }
 
+  /**
+   * Recherche un utilisateur par son adresse e-mail.
+   * @param email L'adresse e-mail de l'utilisateur recherché
+   * @returns L'utilisateur trouvé
+   */
   findUserByEmail(email: string) {
     return this.usersRepository.findOne({ where: { email: email } });
   }
 
+  /**
+   * Supprime un utilisateur par son ID.
+   * @param id L'ID de l'utilisateur à supprimer
+   * @returns L'utilisateur supprimé
+   */
   remove(id: number) {
     return this.usersRepository.delete(id);
   }
 
+   /**
+   * Génère une réponse de token d'authentification pour un utilisateur.
+   * @param user L'utilisateur pour lequel générer le token
+   * @returns La réponse contenant le token et les informations de l'utilisateur
+   */
    generateTokenResponse(user: UserEntity): any {
     const token = jwt.sign(
       {

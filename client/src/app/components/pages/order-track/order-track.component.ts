@@ -12,10 +12,12 @@ import { Order } from 'src/app/shared/models/Order';
 export class OrderTrackPageComponent implements OnInit {
 
   order!:Order;
-  constructor(activatedRoute: ActivatedRoute,
-              orderService:OrderService) {
-     const params = activatedRoute.snapshot.params;
-     if(!params.orderId) return;
+  constructor(activatedRoute: ActivatedRoute, orderService:OrderService) {
+     
+    // Capture les paramètres de la route actuelle
+    const params = activatedRoute.snapshot.params;
+    // Si l'ID de commande n'est pas fourni dans les paramètres, arrête l'exécution 
+     if(!params.orderId) return; 
 
      orderService.trackOrderById(params.orderId).subscribe(order => {
        this.order = order;

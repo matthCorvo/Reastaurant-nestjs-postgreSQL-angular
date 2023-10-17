@@ -7,19 +7,15 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // Nom de l'utilisateur
   @Column()
   name: string;
 
-  // Adresse de l'utilisateur
   @Column()
   adresse: string;
 
-  // Adresse e-mail de l'utilisateur (unique)
   @Column({ unique: true })
   email: string;
 
-  // Mot de passe de l'utilisateur (non inclus dans les sélections par défaut)
   @Column()
   password: string;
 
@@ -27,6 +23,7 @@ export class UserEntity {
   @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.USER] })
   role: Roles[];
 
+  // Relation "OneToMany" avec l'entité "OrderEntity"
   @OneToMany(() => OrderEntity, (order) => order.user )
   order: OrderEntity[];
 

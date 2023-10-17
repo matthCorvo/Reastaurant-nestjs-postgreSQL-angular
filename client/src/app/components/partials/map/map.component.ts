@@ -61,7 +61,7 @@ export class MapComponent implements OnChanges {
     }).setView(this.DEFAULT_LATLNG, 1);
 
     tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(this.map);
-
+    // Gère le clic sur la carte pour définir un marqueur
     this.map.on('click', (e:LeafletMouseEvent) => {
       this.setMarker(e.latlng);
     })
@@ -89,7 +89,7 @@ export class MapComponent implements OnChanges {
       icon: this.MARKER_ICON
     }).addTo(this.map);
 
-
+    // Gère le glissement du marqueur pour mettre à jour les coordonnées
     this.currentMarker.on('dragend', () => {
       this.addressLatLng = this.currentMarker.getLatLng();
     })
@@ -100,11 +100,11 @@ export class MapComponent implements OnChanges {
 
     latlng.lat = parseFloat(latlng.lat.toFixed(8));
     latlng.lng = parseFloat(latlng.lng.toFixed(8));
-    this.order.addressLatLng = latlng;
+    this.order.addressLatLng = latlng; // Met à jour les coordonnées de l'adresse dans la commande
     console.log(this.order.addressLatLng);
   }
 
   get addressLatLng(){
-    return this.order.addressLatLng!;
+    return this.order.addressLatLng!; // Obtient les coordonnées de l'adresse de la commande
   }
 }

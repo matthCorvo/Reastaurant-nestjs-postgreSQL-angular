@@ -2,9 +2,6 @@ import { OrderItemDto } from './order-item.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderStatus } from '../enums/order-status.enum';
 import { LatLngDto } from './latlng.dto';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { IsNotEmpty } from 'class-validator';
-import { OrderItemEntity } from '../entities/orders-items.entity';
 
 export class CreateOrderDto {
   @ApiProperty()

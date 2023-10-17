@@ -28,6 +28,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 import { PayButtonComponent } from './components/partials/pay-button/pay-button.component';
 import { OrderTrackPageComponent } from './components/pages/order-track/order-track.component';
+import { OrderPayedComponent } from './components/pages/order-payed/order-payed.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { OrderTrackPageComponent } from './components/pages/order-track/order-tr
     MapComponent,
     PayButtonComponent,
     OrderTrackPageComponent,
+    OrderPayedComponent,
 
   ],
   imports: [

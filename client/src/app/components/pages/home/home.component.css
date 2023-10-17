@@ -124,6 +124,9 @@ button {
     border-radius: 5px;
 }
 
+.clr-valid{
+   color: #00ccbc;
+}
 
 @media only screen and (min-width: 980px){
     .card {

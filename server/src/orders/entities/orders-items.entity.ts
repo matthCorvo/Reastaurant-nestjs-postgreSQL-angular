@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FoodEntity } from '../../food/entities/food.entity';
 
 @Entity({ name: 'order_items' })
@@ -12,6 +12,7 @@ export class OrderItemEntity {
   @Column('integer', { nullable: true })
   public quantity: number;
 
+  // Relation "Un commandes a plusieurs éléments de food")
   @ManyToOne(() => FoodEntity, (food) => food.orderItems)
   @JoinColumn()
   food: FoodEntity;
